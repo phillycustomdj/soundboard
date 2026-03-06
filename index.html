@@ -1,9 +1,113 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Soundboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Menu</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+        button {
+            background-color: #ff9800;
+            border: none;
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button.playing {
+            background-color: #e65100;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Soundboard</h1>
-    <p>Loading sounds...</p>
+    <div class="container">
+        <button id="hoomoose">Hoomoose</button>
+        <button id="beer-nuts">Beer Nuts</button>
+        <button id="hell">Hell</button>
+        <button id="math">Math</button>
+        <button id="the-regiment">The Regiment</button>
+        <button id="foghat">Foghat</button>
+        <button id="stop">Stop</button>
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let currentBtn = null;
+
+        function stopAll() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentBtn.classList.remove('playing');
+                currentAudio = null;
+                currentBtn = null;
+            }
+        }
+
+        document.getElementById('hoomoose').addEventListener('click', function() {
+            stopAll();
+            currentAudio = new Audio('path/to/hoomoose.mp3');
+            currentBtn = this;
+            currentAudio.play();
+            currentBtn.classList.add('playing');
+        });
+
+        document.getElementById('beer-nuts').addEventListener('click', function() {
+            stopAll();
+            currentAudio = new Audio('path/to/beer-nuts.mp3');
+            currentBtn = this;
+            currentAudio.play();
+            currentBtn.classList.add('playing');
+        });
+
+        document.getElementById('hell').addEventListener('click', function() {
+            stopAll();
+            currentAudio = new Audio('path/to/hell.mp3');
+            currentBtn = this;
+            currentAudio.play();
+            currentBtn.classList.add('playing');
+        });
+
+        document.getElementById('math').addEventListener('click', function() {
+            stopAll();
+            currentAudio = new Audio('path/to/math.mp3');
+            currentBtn = this;
+            currentAudio.play();
+            currentBtn.classList.add('playing');
+        });
+
+        document.getElementById('the-regiment').addEventListener('click', function() {
+            stopAll();
+            currentAudio = new Audio('path/to/the-regiment.mp3');
+            currentBtn = this;
+            currentAudio.play();
+            currentBtn.classList.add('playing');
+        });
+
+        document.getElementById('foghat').addEventListener('click', function() {
+            stopAll();
+            currentAudio = new Audio('path/to/foghat.mp3');
+            currentBtn = this;
+            currentAudio.play();
+            currentBtn.classList.add('playing');
+        });
+
+        document.getElementById('stop').addEventListener('click', stopAll);
+    </script>
 </body>
 </html>
