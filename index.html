@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soundboard</title>
-    <style>
-        /* Add your styling here */
-    </style>
 </head>
 <body>
     <h1>Soundboard</h1>
-    <button onclick="playSound('sound1.mp3')">Sound 1</button>
-    <button onclick="playSound('sound2.mp3')">Sound 2</button>
-    <button onclick="playSound('sound3.mp3')">Sound 3</button>
+    <button onclick="playSound('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/sound1.mp3')">Sound 1</button>
+    <button onclick="playSound('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/sound2.mp3')">Sound 2</button>
+    <button onclick="playSound('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/sound3.mp3')">Sound 3</button>
+
+    <audio id="audioPlayer" controls></audio>
+
     <script>
-        function playSound(file) {
-            const audio = new Audio(file);
-            audio.play();
+        function playSound(url) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.src = url;
+            audioPlayer.play();
         }
     </script>
 </body>
