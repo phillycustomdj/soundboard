@@ -2,112 +2,196 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Virtual Mennu</title>
     <style>
+        :root {
+            --bg-color: #121212;
+            --card-color: #1e1e1e;
+            --accent-color: #cc6600;
+            --text-color: #ffffff;
+            --secondary-text: #888;
+        }
+
         body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        .container {
+
+        header {
+            padding: 3rem 1rem 1.5rem;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
         }
-        button {
-            background-color: #ff9800;
-            border: none;
+
+        .sound-btn {
+            background-color: var(--card-color);
+            border: 2px solid #333;
+            border-radius: 16px;
+            padding: 35px 10px;
             color: white;
-            padding: 15px;
-            font-size: 1.2em;
+            font-size: 0.9rem;
+            font-weight: 700;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-transform: uppercase;
         }
-        button.playing {
-            background-color: #e65100;
+
+        /* Active state for physical touch */
+        .sound-btn:active {
+            transform: scale(0.92);
+            background-color: var(--accent-color);
+            border-color: #ffaa55;
         }
-        button:hover {
-            opacity: 0.8;
+
+        /* Visual indicator for when sound is actually playing */
+        .sound-btn.playing {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(204, 102, 0, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .stop-bar {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .stop-btn {
+            width: 100%;
+            background: #333;
+            color: #ff4444;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            font-size: 0.7rem;
+            color: var(--secondary-text);
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <button id="hoomoose">Hoomoose</button>
-        <button id="beer-nuts">Beer Nuts</button>
-        <button id="hell">Hell</button>
-        <button id="math">Math</button>
-        <button id="the-regiment">The Regiment</button>
-        <button id="foghat">Foghat</button>
-        <button id="stop">Stop</button>
-    </div>
 
-    <script>
-        let currentAudio = null;
-        let currentBtn = null;
+<header>
+    <h1>Virtual Mennu</h1>
+    <div class="subtitle">Yummy for your morphic field</div>
+</header>
 
-        function stopAll() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-                currentBtn.classList.remove('playing');
-                currentAudio = null;
-                currentBtn = null;
-            }
+<div class="grid">
+    <button class="sound-btn" onclick="playSound('audio/hoomoose.mp3', this)">Hoomoose</button>
+    <button class="sound-btn" onclick="playSound('audio/beer-nuts.mp3', this)">Beer Nuts</button>
+    <button class="sound-btn" onclick="playSound('audio/hell.mp3', this)">Hell</button>
+    <button class="sound-btn" onclick="playSound('audio/math.mp3', this)">Math</button>
+    <button class="sound-btn" onclick="playSound('audio/the-regiment.mp3', this)">The Regiment</button>
+    <button class="sound-btn" onclick="playSound('audio/foghat.mp3', this)">Foghat</button>
+</div>
+
+<div class="stop-bar">
+    <button class="stop-btn" onclick="stopAll()">STOP ALL AUDIO</button>
+</div>
+
+<footer>
+    MENNU.COM LEGACY &bull; 2026
+</footer>
+
+<script>
+    let currentAudio = null;
+    let currentBtn = null;
+
+    function playSound(url, btn) {
+        // 1. If a sound is already playing, stop it and reset its button style
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            if (currentBtn) currentBtn.classList.remove('playing');
         }
 
-        document.getElementById('hoomoose').addEventListener('click', function() {
-            stopAll();
-            currentAudio = new Audio('path/to/hoomoose.mp3');
-            currentBtn = this;
-            currentAudio.play();
-            currentBtn.classList.add('playing');
+        // 2. Create and play new audio
+        const audio = new Audio(url);
+        currentAudio = audio;
+        currentBtn = btn;
+        
+        btn.classList.add('playing');
+        
+        audio.play().catch(e => {
+            console.error("Playback failed. This usually happens if the user hasn't interacted with the page yet.", e);
+            btn.classList.remove('playing');
         });
 
-        document.getElementById('beer-nuts').addEventListener('click', function() {
-            stopAll();
-            currentAudio = new Audio('path/to/beer-nuts.mp3');
-            currentBtn = this;
-            currentAudio.play();
-            currentBtn.classList.add('playing');
-        });
+        // 3. Remove "playing" class when finished
+        audio.onended = function() {
+            btn.classList.remove('playing');
+            currentAudio = null;
+            currentBtn = null;
+        };
+    }
 
-        document.getElementById('hell').addEventListener('click', function() {
-            stopAll();
-            currentAudio = new Audio('path/to/hell.mp3');
-            currentBtn = this;
-            currentAudio.play();
-            currentBtn.classList.add('playing');
-        });
+    function stopAll() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            if (currentBtn) currentBtn.classList.remove('playing');
+            currentAudio = null;
+            currentBtn = null;
+        }
+    }
+</script>
 
-        document.getElementById('math').addEventListener('click', function() {
-            stopAll();
-            currentAudio = new Audio('path/to/math.mp3');
-            currentBtn = this;
-            currentAudio.play();
-            currentBtn.classList.add('playing');
-        });
-
-        document.getElementById('the-regiment').addEventListener('click', function() {
-            stopAll();
-            currentAudio = new Audio('path/to/the-regiment.mp3');
-            currentBtn = this;
-            currentAudio.play();
-            currentBtn.classList.add('playing');
-        });
-
-        document.getElementById('foghat').addEventListener('click', function() {
-            stopAll();
-            currentAudio = new Audio('path/to/foghat.mp3');
-            currentBtn = this;
-            currentAudio.play();
-            currentBtn.classList.add('playing');
-        });
-
-        document.getElementById('stop').addEventListener('click', stopAll);
-    </script>
 </body>
 </html>
