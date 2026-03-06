@@ -6,45 +6,108 @@
     <title>Virtual Mennu Soundboard</title>
     <style>
         body {
-            background-color: #121212;
-            color: #FFA500;
-            font-family: Arial, sans-serif;
+            background-color: #111111; /* Darker background from mockup */
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 50px 20px;
         }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #c97a3a; /* Bronze/Orange color */
+            font-size: 32px;
+            letter-spacing: 2px;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: #888888;
+            font-style: italic;
+            font-size: 16px;
+            margin: 0;
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            padding: 20px;
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
         }
+
         button {
-            padding: 20px;
-            font-size: 20px;
-            background-color: #333;
-            color: #FFA500;
-            border: none;
+            padding: 35px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 1px solid #333333;
+            border-radius: 12px; /* Rounded corners */
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
         }
+
         button:hover {
-            background-color: #444;
+            background-color: #252525;
+            border-color: #444444;
         }
+
+        button:active {
+            transform: scale(0.98); /* Satisfying click effect */
+        }
+
         footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 14px;
+            margin-top: 50px;
+            color: #555555;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* Makes it look good on mobile phones */
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Virtual Mennu Soundboard</h1>
-    <div class="grid-container">
-        <button onclick="new Audio('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/Hoomoose.mp3').play()">Hoomoose</button>
-        <button onclick="new Audio('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/Beer Nuts.mp3').play()">Beer Nuts</button>
-        <button onclick="new Audio('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/Hell.mp3').play()">Hell</button>
-        <button onclick="new Audio('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/Math.mp3').play()">Math</button>
-        <button onclick="new Audio('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/The Regiment.mp3').play()">The Regiment</button>
-        <button onclick="new Audio('https://raw.githubusercontent.com/phillycustomdj/soundboard/main/audio/Foghat.mp3').play()">Foghat</button>
+
+    <div class="header">
+        <h1>Virtual Mennu</h1>
+        <p class="subtitle">Yummy for your morphic field</p>
     </div>
+
+    <div class="grid-container">
+        <button onclick="playSound('hoomoose.mp3')">Hoomoose</button>
+        <button onclick="playSound('beer-nuts.mp3')">Beer Nuts</button>
+        <button onclick="playSound('hell.mp3')">Hell</button>
+        <button onclick="playSound('math.mp3')">Math</button>
+        <button onclick="playSound('the-regiment.mp3')">The Regiment</button>
+        <button onclick="playSound('foghat.mp3')">Foghat</button>
+    </div>
+
     <footer>MENNU.COM LEGACY • 2026</footer>
+
+    <script>
+        // Clean, reusable function to play audio
+        function playSound(filename) {
+            // Points to the "audio" folder in your repo
+            const audio = new Audio('./audio/' + filename);
+            audio.play();
+        }
+    </script>
+
 </body>
 </html>
