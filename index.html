@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Soundboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Virtual Menu Soundboard</title>
     <script>
-        // Function to stop all sounds
+        let audioFiles = [];
+        let isPlaying = false;
+
         function stopAll() {
-            var sounds = document.getElementsByTagName('audio');
-            for (var i = 0; i < sounds.length; i++) {
-                sounds[i].pause();
-                sounds[i].currentTime = 0;
-            }
+            audioFiles.forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+            isPlaying = false;
         }
 
-        // Other functions for playing sounds
-        function playSound(soundFile) {
-            var sound = new Audio(soundFile);
-            sound.play();
+        function playAudio(file) {
+            stopAll();
+            const audio = new Audio(file);
+            audioFiles.push(audio);
+            audio.play();
+            isPlaying = true;
         }
     </script>
 </head>
 <body>
-    <h1>Welcome to the Soundboard</h1>
-    <button onclick="playSound('sound1.mp3')">Play Sound 1</button>
-    <button onclick="playSound('sound2.mp3')">Play Sound 2</button>
-    <button onclick="stopAll()">Stop All Sounds</button>
+    <h1>Welcome to the Virtual Menu Soundboard</h1>
+    <button onclick="playAudio('sound1.mp3')">Sound 1</button>
+    <button onclick="playAudio('sound2.mp3')">Sound 2</button>
+    <button onclick="stopAll()">Stop All</button>
 </body>
 </html>
